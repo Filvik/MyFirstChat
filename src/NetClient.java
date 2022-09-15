@@ -13,9 +13,9 @@ import javax.swing.JTextArea;
 
 public class NetClient extends JFrame implements KeyListener {
 
-    /** адрес сервера */
+    /** Р°РґСЂРµСЃ СЃРµСЂРІРµСЂР° */
     private final static String serverIP = "127.0.0.1";
-    /** порт сервера */
+    /** РїРѕСЂС‚ СЃРµСЂРІРµСЂР° */
     private final static int serverPort = 1234;
 
     Socket socket;
@@ -27,12 +27,12 @@ public class NetClient extends JFrame implements KeyListener {
     private PrintWriter out;
 
     NetClient() {
-        // Создаем окно
+        // РЎРѕР·РґР°РµРј РѕРєРЅРѕ
         super("Simple Chat client");
         setSize(400, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        // Добавляем на окно текстовое поле
+        // Р”РѕР±Р°РІР»СЏРµРј РЅР° РѕРєРЅРѕ С‚РµРєСЃС‚РѕРІРѕРµ РїРѕР»Рµ
         textArea = new JTextArea();
         textArea.setBackground(Color.BLACK);
         textArea.setForeground(Color.WHITE);
@@ -57,13 +57,13 @@ public class NetClient extends JFrame implements KeyListener {
         }
 
         new Thread(() -> {
-            // в отдельном потоке
-            // принимаем символы от сервера
+            // РІ РѕС‚РґРµР»СЊРЅРѕРј РїРѕС‚РѕРєРµ
+            // РїСЂРёРЅРёРјР°РµРј СЃРёРјРІРѕР»С‹ РѕС‚ СЃРµСЂРІРµСЂР°
             while (true) {
                 try {
                     int a = in.read();
                     addCharToTextArea(a, false);
-                    //Проверяем что клиент не отключен и из буффера не идет муссор.
+                    //РџСЂРѕРІРµСЂСЏРµРј С‡С‚Рѕ РєР»РёРµРЅС‚ РЅРµ РѕС‚РєР»СЋС‡РµРЅ Рё РёР· Р±СѓС„С„РµСЂР° РЅРµ РёРґРµС‚ РјСѓСЃСЃРѕСЂ.
                     if (a == -1) {
                         socket.close();
                         in.close();
@@ -94,7 +94,7 @@ public class NetClient extends JFrame implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent arg0) {
-//		 отправляем напечатанный символ в сеть и на экран
+//		 РѕС‚РїСЂР°РІР»СЏРµРј РЅР°РїРµС‡Р°С‚Р°РЅРЅС‹Р№ СЃРёРјРІРѕР» РІ СЃРµС‚СЊ Рё РЅР° СЌРєСЂР°РЅ
         out.print(arg0.getKeyChar());
         out.flush();
 
@@ -103,10 +103,10 @@ public class NetClient extends JFrame implements KeyListener {
     }
 
     /**
-     * Печатает в чат.
-     * @param c Приходящий символ.
-     * @param flag Определяет откуда идет символ.
-     *             true - если символ введен с клавиатуры.
+     * РџРµС‡Р°С‚Р°РµС‚ РІ С‡Р°С‚.
+     * @param c РџСЂРёС…РѕРґСЏС‰РёР№ СЃРёРјРІРѕР».
+     * @param flag РћРїСЂРµРґРµР»СЏРµС‚ РѕС‚РєСѓРґР° РёРґРµС‚ СЃРёРјРІРѕР».
+     *             true - РµСЃР»Рё СЃРёРјРІРѕР» РІРІРµРґРµРЅ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹.
      */
     void addCharToTextArea(int c, boolean flag) {
 
@@ -115,7 +115,7 @@ public class NetClient extends JFrame implements KeyListener {
                 input = true;
                 firstInput = false;
             } else if (input) {
-                textArea.append("Вы: ");
+                textArea.append("Р’С‹: ");
                 textArea.setCaretPosition(textArea.getDocument().getLength());
                 input = false;
             }

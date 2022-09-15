@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
- * Класс для работы с подключением клиента к серверу.
+ * РљР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РїРѕРґРєР»СЋС‡РµРЅРёРµРј РєР»РёРµРЅС‚Р° Рє СЃРµСЂРІРµСЂСѓ.
  */
 class Client implements Runnable {
     private final Socket socket;
@@ -19,38 +19,38 @@ class Client implements Runnable {
 
     public Client(Socket socket, Map<Long, Client> clients) {
 
-        // id клиента
+        // id РєР»РёРµРЅС‚Р°
         id = System.currentTimeMillis();
 
         this.clients = clients;
         this.socket = socket;
-        // получаем потоки ввода и вывода
+        // РїРѕР»СѓС‡Р°РµРј РїРѕС‚РѕРєРё РІРІРѕРґР° Рё РІС‹РІРѕРґР°
         try {
             is = socket.getInputStream();
             OutputStream os = socket.getOutputStream();
             out = new PrintStream(os);
 
-            System.out.printf("Клиент %s подключился.%n", id);
+            System.out.printf("РљР»РёРµРЅС‚ %s РїРѕРґРєР»СЋС‡РёР»СЃСЏ.%n", id);
 
             for (Client client : clients.values()) {
                 if (client.getId() != id) {
-                    client.getOut().println("Клиент с id" + id + " подключился");
+                    client.getOut().println("РљР»РёРµРЅС‚ СЃ id" + id + " РїРѕРґРєР»СЋС‡РёР»СЃСЏ");
                 }
             }
         } catch (IOException e) {
-            System.out.println("Ошибка при создании потока\n");
+            System.out.println("РћС€РёР±РєР° РїСЂРё СЃРѕР·РґР°РЅРёРё РїРѕС‚РѕРєР°\n");
             e.printStackTrace();
         }
     }
 
     /**
-     * Запускает работу клиентского сокета на сервере в отдельном потоке.
+     * Р—Р°РїСѓСЃРєР°РµС‚ СЂР°Р±РѕС‚Сѓ РєР»РёРµРЅС‚СЃРєРѕРіРѕ СЃРѕРєРµС‚Р° РЅР° СЃРµСЂРІРµСЂРµ РІ РѕС‚РґРµР»СЊРЅРѕРј РїРѕС‚РѕРєРµ.
      */
     public void run() {
         try {
-            // создаем удобные средства ввода и вывода
+            // СЃРѕР·РґР°РµРј СѓРґРѕР±РЅС‹Рµ СЃСЂРµРґСЃС‚РІР° РІРІРѕРґР° Рё РІС‹РІРѕРґР°
             Scanner in = new Scanner(is);
-            // читаем из сети и пишем в сеть
+            // С‡РёС‚Р°РµРј РёР· СЃРµС‚Рё Рё РїРёС€РµРј РІ СЃРµС‚СЊ
             out.println("Welcome to chat!\n");
             try {
                 String input = in.nextLine();
@@ -68,15 +68,15 @@ class Client implements Runnable {
 
             for (Client client : clients.values()) {
                 if (client.getId() != id) {
-                    client.getOut().println("Клиент с id" + id + " отключился");
+                    client.getOut().println("РљР»РёРµРЅС‚ СЃ id" + id + " РѕС‚РєР»СЋС‡РёР»СЃСЏ");
                 }
             }
-            System.out.printf("Клиент %s отключился%n", id);
+            System.out.printf("РљР»РёРµРЅС‚ %s РѕС‚РєР»СЋС‡РёР»СЃСЏ%n", id);
             socket.close();
             in.close();
             out.close();
         } catch (IOException e) {
-            System.out.printf("Ошибка подключения клиента %s \nСоединение прервано.%n", id);
+            System.out.printf("РћС€РёР±РєР° РїРѕРґРєР»СЋС‡РµРЅРёСЏ РєР»РёРµРЅС‚Р° %s \nРЎРѕРµРґРёРЅРµРЅРёРµ РїСЂРµСЂРІР°РЅРѕ.%n", id);
         }
         clients.remove(id);
     }
